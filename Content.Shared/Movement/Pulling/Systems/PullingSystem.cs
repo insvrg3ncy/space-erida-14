@@ -6,8 +6,6 @@ using Content.Shared.Buckle.Components;
 using Content.Shared.Cuffs;
 using Content.Shared.Cuffs.Components;
 using Content.Shared.CombatMode; // Goobstation
-using Content.Shared.Cuffs; // Goobstation
-using Content.Shared.Cuffs.Components; // Goobstation
 using Content.Shared.Damage; // Goobstation
 using Content.Shared.Damage.Systems; // Goobstation
 using Content.Shared.Database;

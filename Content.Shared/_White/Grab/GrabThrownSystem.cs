@@ -11,14 +11,14 @@ using Content.Shared.Standing;
 
 namespace Content.Shared._White.Grab;
 
-public sealed class GrabThrownSystem : EntitySystem
+public sealed partial class GrabThrownSystem : EntitySystem
 {
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly SharedColorFlashEffectSystem _color = default!;
-    [Dependency] private readonly SharedStaminaSystem _stamina = default!;
-    [Dependency] private readonly ThrowingSystem _throwing = default!;
-    [Dependency] private readonly INetManager _netMan = default!;
-    [Dependency] private readonly StandingStateSystem _standing = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private SharedColorFlashEffectSystem _color = default!;
+    [Dependency] private SharedStaminaSystem _stamina = default!;
+    [Dependency] private ThrowingSystem _throwing = default!;
+    [Dependency] private INetManager _netMan = default!;
+    [Dependency] private StandingStateSystem _standing = default!;
 
     public override void Initialize()
     {
