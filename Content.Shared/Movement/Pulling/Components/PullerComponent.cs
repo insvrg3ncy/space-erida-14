@@ -1,4 +1,5 @@
 ﻿using Content.Shared.Alert;
+using Content.Shared.Damage;
 using Content.Shared.Movement.Pulling.Systems;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -85,6 +86,21 @@ public sealed partial class PullerComponent : Component
 
     [DataField]
     public float SuffocateGrabStaminaDamage = 10f;
+
+    [DataField]
+    public DamageSpecifier SuffocateGrabDamage = new()
+    {
+        DamageDict =
+        {
+            ["Asphyxiation"] = 5,
+        },
+    };
+
+    [DataField]
+    public TimeSpan SuffocateGrabDamageInterval = TimeSpan.FromSeconds(1);
+
+    [AutoNetworkedField]
+    public TimeSpan NextSuffocateDamage;
 
     [DataField]
     public float GrabThrowDamageModifier = 1f;
