@@ -30,7 +30,7 @@ public sealed class GrabThrownSystem : EntitySystem
 
     private void HandleCollide(EntityUid uid, GrabThrownComponent component, ref StartCollideEvent args)
     {
-        if (_netMan.IsClient) // To avoid effect spamExpand comment
+        if (_netMan.IsClient) // To avoid effect spam
             return;
 
         if (!HasComp<ThrownItemComponent>(uid))
