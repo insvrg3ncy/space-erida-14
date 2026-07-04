@@ -267,6 +267,9 @@ uplink-inteq-carp-dehydrated-desc = Выглядит как плюшевый и�
 uplink-syndicate-rapier-name = Рапира Синдиката
 uplink-syndicate-rapier-desc = Элегантная рапира из пластитана с алмазным наконечником. Рапира поставляется в собственных ножнах и способна пробить практически любую защиту если бить точно.
 
+uplink-cryo-katana-name = Криокатана
+uplink-cryo-katana-desc = Ледяная катана синдиката. Совершайте рывки к цели и замораживайте врагов при каждом попадании.
+
 uplink-night-vision-goggles-syndie-name = Прибор ночного зрения
 uplink-night-vision-goggles-syndie-desc = Включают в себя медцинский анализатор. Но не включают систему хамелеон.
 

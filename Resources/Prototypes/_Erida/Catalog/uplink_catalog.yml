@@ -13,6 +13,20 @@
   - UplinkWeaponry
 
 - type: listing
+  id: UplinkCryoKatana
+  name: uplink-cryo-katana-name
+  description: uplink-cryo-katana-desc
+  icon: { sprite: _Goobstation/Objects/Weapons/Melee/cryokatana.rsi, state: icon }
+  productEntity: CryoKatana
+  discountCategory: rareDiscounts
+  discountDownTo:
+    Telecrystal: 9
+  cost:
+    Telecrystal: 12
+  categories:
+  - UplinkWeaponry
+
+- type: listing
   id: UplinkInferiorImplant
   name: uplink-inferior-implanter-name
   description: uplink-inferior-implanter-desc
