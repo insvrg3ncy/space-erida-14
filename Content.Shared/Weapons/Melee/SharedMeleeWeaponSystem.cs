@@ -487,7 +487,6 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem
 
     protected abstract bool InRange(EntityUid user, EntityUid target, float range, ICommonSession? session);
 
-    // Goobstation
     protected virtual void DoLightAttack(EntityUid user, LightAttackEvent ev, EntityUid meleeUid, MeleeWeaponComponent component, ICommonSession? session)
     {
         // If I do not come back later to fix Light Attacks being Heavy Attacks you can throw me in the spider pit -Errant
