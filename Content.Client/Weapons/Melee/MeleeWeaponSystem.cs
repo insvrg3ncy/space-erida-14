@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Client.Gameplay;
 using Content.Shared._Goobstation.Weapons;
+using Content.Shared._Goobstation.Weapons.MeleeDash; // Goobstation
 using Content.Shared.CCVar;
 using Content.Shared.CombatMode;
 using Content.Shared.Effects;
@@ -37,6 +38,7 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
     [Dependency] private IConfigurationManager _cfg = default!;
 
     private const string MeleeLungeKey = "melee-lunge";
+    private EntityUid? _lastWeaponUid; // Goobstation
 
     public override void Initialize()
     {
@@ -69,14 +71,27 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
         if (!TryGetWeapon(entity, out var weaponUid, out var weapon))
             return;
 
+        var useDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use);
+        var altDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
+
+        // Goobstation start 
+        if (_lastWeaponUid != weaponUid)
+        {
+            _lastWeaponUid = weaponUid;
+
+            if (useDown == BoundKeyState.Down && HasComp<MeleeDashComponent>(weaponUid))
+            {
+                weapon.Attacking = true;
+                DirtyField(weaponUid, weapon, nameof(MeleeWeaponComponent.Attacking));
+            }
+        }
+        // Goobstation end
+
         if (!CombatMode.IsInCombatMode(entity) || !Blocker.CanAttack(entity, weapon: (weaponUid, weapon)))
         {
             weapon.Attacking = false;
             return;
         }
-
-        var useDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.Use);
-        var altDown = _inputSystem.CmdStates.GetState(EngineKeyFunctions.UseSecondary);
 
         if (weapon.AutoAttack || useDown != BoundKeyState.Down && altDown != BoundKeyState.Down || _cfg.GetCVar(CCVars.ControlHoldToAttackMelee))
         {
@@ -148,6 +163,23 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
             ClientHeavyAttack(entity, coordinates, weaponUid, weapon);
             return;
         }
+
+
+        // Goobstation start - melee dash
+        if (HasComp<MeleeDashComponent>(weaponUid) && useDown == BoundKeyState.Down)
+        {
+            var userPos = TransformSystem.GetWorldPosition(entity);
+            var direction = mousePos.Position - userPos;
+            if (direction.LengthSquared() > 0f)
+            {
+                RaisePredictiveEvent(new MeleeDashEvent(GetNetEntity(weaponUid), direction));
+                weapon.Attacking = true;
+                DirtyField(weaponUid, weapon, nameof(MeleeWeaponComponent.Attacking));
+            }
+
+            return;
+        }
+        // Goobstation end
 
         // Light attack
         if (useDown == BoundKeyState.Down)
