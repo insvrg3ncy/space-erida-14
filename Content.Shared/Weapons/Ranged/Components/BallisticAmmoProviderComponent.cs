@@ -65,5 +65,5 @@ public sealed partial class BallisticAmmoProviderComponent : Component
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), DataField]
     public bool BreakOnMoveFill = true;
-    // Corvax-Wega-Add-start
+    // Corvax-Wega-Add-end
 }
