@@ -66,6 +66,7 @@ public sealed partial class PullingSystem : EntitySystem
     [Dependency] private HeldSpeedModifierSystem _clothingMoveSpeed = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
     [Dependency] private SharedVirtualItemSystem _virtual = default!;
+    // Goobstation start
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private SharedStaminaSystem _stamina = default!;
     [Dependency] private SharedColorFlashEffectSystem _color = default!;
@@ -76,6 +77,7 @@ public sealed partial class PullingSystem : EntitySystem
     [Dependency] private SharedCombatModeSystem _combatMode = default!;
     [Dependency] private ThrowingSystem _throwing = default!;
     [Dependency] private DamageableSystem _damageable = default!;
+    // Goobstation end
 
     public override void Initialize()
     {
@@ -129,8 +131,8 @@ public sealed partial class PullingSystem : EntitySystem
             && TryComp<PullableComponent>(ent.Comp.Pulling, out var comp)
             && ent.Comp.Pulling != null)
         {
-            if(_netManager.IsServer)
-                StopPulling((EntityUid) ent.Comp.Pulling, comp);
+            if (_netManager.IsServer)
+                StopPulling((EntityUid)ent.Comp.Pulling, comp);
         }
     }
     // Goobstation
@@ -174,7 +176,7 @@ public sealed partial class PullingSystem : EntitySystem
 
         // Try find hand that is doing this pull.
         // and clear it.
-        _virtual.DeleteInHandsMatching(uid, args.PulledUid);
+        _virtual.DeleteInHandsMatching(uid, args.PulledUid);  // Goobstation
     }
 
     private void OnStateChanged(EntityUid uid, PullerComponent component, ref MobStateChangedEvent args)
@@ -387,8 +389,8 @@ public sealed partial class PullingSystem : EntitySystem
             if (component.GrabStage > GrabStage.No
                 && TryComp(args.BlockingEntity, out PullableComponent? comp))
             {
-                    TryLowerGrabStage(component.Pulling.Value, uid);
-                    args.Cancel();  // VirtualItem is NOT being deleted
+                TryLowerGrabStage(component.Pulling.Value, uid);
+                args.Cancel();  // VirtualItem is NOT being deleted
             }
         }
         else
@@ -432,7 +434,7 @@ public sealed partial class PullingSystem : EntitySystem
             Verb verb = new()
             {
                 Text = Loc.GetString("pulling-verb-get-data-text-stop-pulling"),
-                Act = () => TryStopPull(uid, component, user: args.User, ignoreGrab: true),
+                Act = () => TryStopPull(uid, component, user: args.User, ignoreGrab: true),  // Goobstation
                 DoContactInteraction = false // pulling handle its own contact interaction.
             };
             args.Verbs.Add(verb);
@@ -458,6 +460,7 @@ public sealed partial class PullingSystem : EntitySystem
             args.ModifySpeed(walkMod, sprintMod);
         }
 
+        // Goobstation start
         if (TryComp<HeldSpeedModifierComponent>(component.Pulling, out var heldMoveSpeed) && component.Pulling.HasValue)
         {
             var (walkMod, sprintMod) = (args.WalkSpeedModifier, args.SprintSpeedModifier);
@@ -480,9 +483,11 @@ public sealed partial class PullingSystem : EntitySystem
                     args.ModifySpeed(walkMod, sprintMod);
                     break;
             }
+            // Goobstation end
             return;
         }
 
+        // Goobstation start
         switch (component.GrabStage)
         {
             case GrabStage.No:
@@ -500,6 +505,7 @@ public sealed partial class PullingSystem : EntitySystem
             default:
                 args.ModifySpeed(component.WalkSpeedModifier, component.SprintSpeedModifier);
                 break;
+                // Goobstation end
         }
     }
 
@@ -584,7 +590,7 @@ public sealed partial class PullingSystem : EntitySystem
         if (TryComp<PullerComponent>(oldPuller, out var pullerComp))
         {
             var pullerUid = oldPuller.Value;
-            if (_netManager.IsServer)
+            if (_netManager.IsServer) // Goobstation
                 _alertsSystem.ClearAlert(pullerUid, pullerComp.PullingAlert);
             pullerComp.Pulling = null;
 
@@ -606,7 +612,7 @@ public sealed partial class PullingSystem : EntitySystem
             RaiseLocalEvent(pullableUid, message);
         }
 
-        if (_netManager.IsServer)
+        if (_netManager.IsServer) // Goobstation
             _alertsSystem.ClearAlert(pullableUid, pullableComp.PulledAlert);
     }
 
@@ -917,6 +923,7 @@ public sealed partial class PullingSystem : EntitySystem
         Dirty(target, targetComp);
     }
 
+    // Goobstation start
     /// <summary>
     /// Trying to grab the target
     /// </summary>
@@ -1221,4 +1228,3 @@ public enum GrabStageDirection
 
 // Goobstation - Grab Intent
 
-// Goobstation

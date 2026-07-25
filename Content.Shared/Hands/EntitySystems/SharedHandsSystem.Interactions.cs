@@ -99,6 +99,7 @@ public abstract partial class SharedHandsSystem : EntitySystem
     {
         if (TryComp(session?.AttachedEntity, out HandsComponent? hands) && hands.ActiveHandId != null)
         {
+            // Goobstation start
             if (session != null)
             {
                 var ent = session.AttachedEntity.Value;
@@ -117,6 +118,7 @@ public abstract partial class SharedHandsSystem : EntitySystem
             }
 
             TryDrop((session!.AttachedEntity!.Value, hands), hands.ActiveHandId, coords);
+            // Goobstation end
         }
 
         // always send to server.

@@ -151,14 +151,15 @@ namespace Content.Shared.Hands
         public EntityUid User;
         public EntityUid VirtualItem;
 
-        public VirtualItemDeletedEvent(EntityUid blockingEntity, EntityUid user, EntityUid virtualItem)
+        public VirtualItemDeletedEvent(EntityUid blockingEntity, EntityUid user, EntityUid virtualItem)  // Goobstation
         {
             BlockingEntity = blockingEntity;
             User = user;
-            VirtualItem = virtualItem;
+            VirtualItem = virtualItem;  // Goobstation
         }
     }
 
+    // Goobstation start
     /// <summary>
     ///     Raised directed on both the blocking entity and user when
     ///     a virtual hand item is thrown (at least attempted to).
